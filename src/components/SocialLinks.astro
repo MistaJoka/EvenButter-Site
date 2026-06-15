@@ -1,0 +1,71 @@
+---
+// TODO(launch): set real handles + URLs once accounts exist, then drop is-soon.
+const socials = [
+  { name: "Instagram", handle: "@evenbutterbakeshop", url: "#", soon: true, icon: "instagram" },
+  { name: "TikTok", handle: "@evenbutterbakeshop", url: "#", soon: true, icon: "tiktok" },
+];
+---
+<section class="section social">
+  <div class="container center">
+    <p class="eyebrow">say hi</p>
+    <h2>Follow along</h2>
+    <p class="social__intro">Behind-the-scenes bakes and first looks at new flavors.</p>
+    <ul class="social__list">
+      {socials.map((s) => (
+        <li>
+          <a class={`social__link ${s.soon ? "is-soon" : ""}`} href={s.url} aria-disabled={s.soon}>
+            {s.icon === "instagram" && (
+              <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/>
+                <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
+                <circle cx="17.5" cy="6.5" r="1.4" fill="currentColor"/>
+              </svg>
+            )}
+            {s.icon === "tiktok" && (
+              <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
+                <path d="M13.5 3v11.2a2.8 2.8 0 1 1-2.2-2.74V8.9a6 6 0 1 0 4.7 5.86V9.3a6.3 6.3 0 0 0 3.5 1.06V7.3a3.3 3.3 0 0 1-3.5-3.3z" fill="currentColor"/>
+              </svg>
+            )}
+            <span class="social__name">{s.name}</span>
+            <span class="social__handle">{s.handle}</span>
+            {s.soon && <span class="pill social__soon">coming soon</span>}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .social { background: var(--cream); }
+  .social__intro { max-width: 40ch; margin: 0 auto 2rem; color: var(--cocoa-soft); }
+  .social__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .social__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    width: 180px;
+    padding: 1.5rem 1rem;
+    background: var(--white);
+    border: 2px solid var(--cocoa);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--cocoa);
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.15s ease;
+  }
+  .social__link:hover { transform: translateY(-5px); }
+  .social__name { font-family: var(--font-display); font-weight: 500; font-size: 1.15rem; }
+  .social__handle { font-size: 0.9rem; color: var(--cocoa-soft); }
+  .social__soon { margin-top: 0.4rem; background: var(--butter); }
+  .is-soon { cursor: default; }
+</style>

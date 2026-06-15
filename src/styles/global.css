@@ -1,0 +1,122 @@
+/* ── Even Butter Bake Shop — design tokens & base styles ───────────────── */
+:root {
+  --cream: #FBF4E6;
+  --cream-deep: #F4E7CD;
+  --butter: #F6D87A;
+  --butter-soft: #FCEEC0;
+  --blush: #F6C6CE;
+  --blush-soft: #FBE2E6;
+  --sage: #C9DBC4;
+  --sage-soft: #E4EFE0;
+  --cocoa: #4A3429;
+  --cocoa-soft: #6F5749;
+  --white: #FFFDF8;
+
+  --font-display: "Fredoka", system-ui, sans-serif;
+  --font-body: "Nunito", system-ui, sans-serif;
+  --font-hand: "Caveat", "Comic Sans MS", cursive;
+
+  --radius: 24px;
+  --radius-sm: 14px;
+  --maxw: 1080px;
+  --shadow-soft: 0 14px 30px -18px rgba(74, 52, 41, 0.45);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--cocoa);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0 0 0.5em;
+  letter-spacing: -0.01em;
+}
+
+h2 { font-size: clamp(1.7rem, 4vw, 2.5rem); }
+h3 { font-size: 1.25rem; }
+
+p { margin: 0 0 1rem; }
+
+a { color: var(--cocoa); }
+
+img { max-width: 100%; height: auto; display: block; }
+
+.section { padding: clamp(3.5rem, 8vw, 6rem) 1.25rem; }
+
+.container { max-width: var(--maxw); margin: 0 auto; }
+
+.eyebrow {
+  font-family: var(--font-hand);
+  font-size: 1.6rem;
+  color: var(--cocoa-soft);
+  margin: 0 0 0.25rem;
+}
+
+.center { text-align: center; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.1rem;
+  color: var(--cocoa);
+  background: var(--butter);
+  border: 2.5px solid var(--cocoa);
+  border-radius: 999px;
+  padding: 0.85rem 1.8rem;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 var(--cocoa);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--cocoa);
+}
+
+.btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--cocoa);
+}
+
+.pill {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: var(--sage);
+  color: var(--cocoa);
+  border-radius: 999px;
+  padding: 0.3rem 0.85rem;
+}
+
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.floaty { animation: floaty 5s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .floaty { animation: none; }
+  * { transition: none !important; }
+}

@@ -1,0 +1,33 @@
+---
+import FlavorCard from "./FlavorCard.astro";
+import { flavors } from "../data/flavors.js";
+---
+<section id="flavors" class="section flavors">
+  <div class="container center">
+    <p class="eyebrow">fresh from the oven</p>
+    <h2>The flavors</h2>
+    <p class="flavors__intro">
+      A rotating little menu of small-batch favorites. New flavors pop up all the time.
+    </p>
+    <div class="flavors__grid">
+      {flavors.map((f, i) => (
+        <FlavorCard name={f.name} sticker={f.sticker} description={f.description} index={i} />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .flavors { background: var(--butter-soft); }
+  .flavors__intro {
+    max-width: 40ch;
+    margin: 0 auto 2.5rem;
+    color: var(--cocoa-soft);
+  }
+  .flavors__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    text-align: left;
+  }
+</style>

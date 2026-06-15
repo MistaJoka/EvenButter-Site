@@ -1,0 +1,38 @@
+---
+---
+<section class="band">
+  <div class="container band__inner">
+    <img
+      class="band__marcel"
+      src="/images/marcel.png"
+      alt="Marcel the cow in the Even Butter delivery van"
+      width="200"
+      height="200"
+      loading="lazy"
+    />
+    <div class="band__text">
+      <h2>Marcel's warming up the van</h2>
+      <p>Local pickup and delivery are on the way. Marcel can't wait to bring you cookies.</p>
+      <span class="pill">deliveries coming soon</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .band { background: var(--sage); padding: clamp(2.5rem, 6vw, 4rem) 1.25rem; }
+  .band__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1rem, 4vw, 2.5rem);
+    flex-wrap: wrap;
+    text-align: center;
+  }
+  .band__marcel { width: min(200px, 45vw); height: auto; }
+  .band__text { max-width: 36ch; text-align: left; }
+  .band__text h2 { font-size: clamp(1.5rem, 3.5vw, 2rem); }
+  .band__text p { color: var(--cocoa-soft); }
+  @media (max-width: 560px) {
+    .band__text { text-align: center; }
+  }
+</style>

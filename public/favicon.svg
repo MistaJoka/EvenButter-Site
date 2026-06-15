@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="8" fill="#F6D87A"/>
+  <rect x="6.5" y="6.5" width="19" height="19" rx="6" fill="none" stroke="#4A3429" stroke-width="1.5"/>
+  <text x="16" y="21" font-family="Fredoka, system-ui, sans-serif" font-size="15" font-weight="600" fill="#4A3429" text-anchor="middle">eb</text>
+</svg>

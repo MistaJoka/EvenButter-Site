@@ -1,0 +1,75 @@
+---
+// Draft bio copy — written to match her vibe, meant for the baker to edit.
+---
+<section id="about" class="section about">
+  <div class="container about__grid">
+    <div class="about__photo" role="img" aria-label="A photo of the baker will go here">
+      <span class="about__photo-note">a photo of the baker, coming soon</span>
+    </div>
+
+    <div class="about__text">
+      <p class="eyebrow">meet the baker</p>
+      <h2>Hi, I'm so glad you're here</h2>
+      <p>
+        I'm the baker behind Even Butter. I make small-batch cookies and treats from my
+        kitchen — slowly, carefully, and the right way. Everything is made to order in
+        little batches, so each one gets a little extra love (and a lot of butter).
+      </p>
+      <p>
+        I can't wait to share them with you. Until orders open, you can join the list below
+        and I'll let you know the moment the oven's on.
+      </p>
+      <p class="about__pepper">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" class="paw">
+          <circle cx="6.5" cy="9.5" r="2" fill="currentColor" />
+          <circle cx="11" cy="6.5" r="2" fill="currentColor" />
+          <circle cx="16" cy="6.5" r="2" fill="currentColor" />
+          <circle cx="18.5" cy="10.5" r="2" fill="currentColor" />
+          <path d="M12 11c3 0 5 2.2 5 4.4 0 1.7-1.6 2.6-3.4 2.6-0.7 0-1.1-0.3-1.6-0.3s-0.9 0.3-1.6 0.3C9 18 7 17.1 7 15.4 7 13.2 9 11 12 11z" fill="currentColor" />
+        </svg>
+        Quality control is handled by <strong>Pepper</strong>, my Boston Terrier and very
+        serious taste-tester.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about { background: var(--cream); }
+  .about__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: clamp(1.5rem, 5vw, 3.5rem);
+    align-items: center;
+  }
+  .about__photo {
+    aspect-ratio: 4 / 5;
+    background: var(--sage-soft);
+    border: 2px dashed var(--cocoa-soft);
+    border-radius: var(--radius);
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+  }
+  .about__photo-note {
+    font-family: var(--font-hand);
+    font-size: 1.3rem;
+    color: var(--cocoa-soft);
+    text-align: center;
+  }
+  .about__pepper {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    background: var(--blush-soft);
+    border-radius: var(--radius-sm);
+    padding: 0.9rem 1.1rem;
+    font-size: 0.98rem;
+    margin-top: 1.5rem;
+  }
+  .paw { flex: 0 0 auto; color: var(--cocoa); margin-top: 3px; }
+  @media (max-width: 720px) {
+    .about__grid { grid-template-columns: 1fr; }
+    .about__photo { max-width: 320px; margin: 0 auto; }
+  }
+</style>
