@@ -11,9 +11,12 @@ const socials = [
     <h2>Follow along</h2>
     <p class="social__intro">Behind-the-scenes bakes and first looks at new flavors.</p>
     <ul class="social__list">
-      {socials.map((s) => (
+      {socials.map((s) => {
+        const Tag = s.soon ? "div" : "a";
+        const linkProps = s.soon ? {} : { href: s.url };
+        return (
         <li>
-          <a class={`social__link ${s.soon ? "is-soon" : ""}`} href={s.url} aria-disabled={s.soon}>
+          <Tag class={`social__link ${s.soon ? "is-soon" : ""}`} {...linkProps}>
             {s.icon === "instagram" && (
               <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
                 <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/>
@@ -29,9 +32,10 @@ const socials = [
             <span class="social__name">{s.name}</span>
             <span class="social__handle">{s.handle}</span>
             {s.soon && <span class="pill social__soon">coming soon</span>}
-          </a>
+          </Tag>
         </li>
-      ))}
+        );
+      })}
     </ul>
   </div>
 </section>

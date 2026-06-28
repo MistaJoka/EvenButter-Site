@@ -4,14 +4,16 @@ const tagline = "Small-batch treats, made the right way.";
 <header class="hero">
   <div class="container hero__inner">
     <p class="eyebrow">welcome to</p>
-    <img
-      class="hero__logo"
-      src="/images/logo.png"
-      alt="Even Butter Bake Shop"
-      width="520"
-      height="318"
-      fetchpriority="high"
-    />
+    <h1 class="hero__title">
+      <img
+        class="hero__logo"
+        src="/images/logo.png"
+        alt="Even Butter Bake Shop"
+        width="520"
+        height="318"
+        fetchpriority="high"
+      />
+    </h1>
     <img
       class="hero__marcel floaty"
       src="/images/marcel.png"
@@ -40,6 +42,10 @@ const tagline = "Small-batch treats, made the right way.";
     flex-direction: column;
     align-items: center;
     text-align: center;
+  }
+  .hero__title {
+    margin: 0;
+    line-height: 0;
   }
   .hero__logo {
     width: min(520px, 82vw);
