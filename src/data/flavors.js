@@ -42,12 +42,12 @@ export const flavors = [
     name: "Carrot Cake",
     slug: "carrot-cake",
     sticker: "/images/flavors/carrot-cake.png",
-    description: "Soft and spiced, with a little cream-cheese dream.",
+    description: "Soft and spiced, with a little mascarpone dream.",
   },
   {
     name: "Nougat Crunch",
     slug: "nougat-crunch",
     sticker: "/images/flavors/nougat-crunch.png",
-    description: "Chewy nougat and a satisfying crunch in every bite.",
+    description: "Silky nougat and a satisfying crunch in every bite.",
   },
 ];
