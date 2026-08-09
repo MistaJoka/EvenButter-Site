@@ -70,7 +70,7 @@ img { max-width: 100%; height: auto; display: block; }
 .skip-link {
   position: absolute;
   left: 0.5rem;
-  top: -3rem;
+  top: 0.5rem;
   z-index: 100;
   background: var(--butter);
   color: var(--cocoa);
@@ -80,9 +80,11 @@ img { max-width: 100%; height: auto; display: block; }
   border-radius: var(--radius-sm);
   padding: 0.6rem 1.1rem;
   text-decoration: none;
-  transition: top 0.15s ease;
+  /* translate by its own height so it hides fully at any font size */
+  transform: translateY(-200%);
+  transition: transform 0.15s ease;
 }
-.skip-link:focus { top: 0.5rem; }
+.skip-link:focus { transform: translateY(0); }
 
 .btn {
   display: inline-flex;
