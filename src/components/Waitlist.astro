@@ -1,9 +1,17 @@
 ---
-// TODO(launch): replace FORM_ID with the real Formspree form id (formspree.io).
-// Until then the form is fully styled and functional-looking; submissions will
-// 404 against the placeholder endpoint, which is fine pre-launch.
-const FORM_ID = "YOUR_FORM_ID";
-const action = `https://formspree.io/f/${FORM_ID}`;
+import { WAITLIST_ACTION, isWaitlistConfigured } from "../data/waitlist.js";
+
+if (!isWaitlistConfigured) {
+  console.warn(
+    "\n[waitlist] FORMSPREE_FORM_ID is still the placeholder. The form renders but signups" +
+      " will fail. Set it in src/data/waitlist.js."
+  );
+}
+
+const action = WAITLIST_ACTION;
+// Where Formspree sends visitors after a no-JavaScript submit. The page reads
+// ?joined=1 on load and shows the same thank-you message the JS path shows.
+const next = new URL("/?joined=1#waitlist", Astro.site).href;
 ---
 <section id="waitlist" class="section waitlist">
   <div class="container waitlist__card">
@@ -15,6 +23,8 @@ const action = `https://formspree.io/f/${FORM_ID}`;
     </p>
 
     <form class="waitlist__form" action={action} method="POST" data-formspree>
+      <input type="hidden" name="_subject" value="New Even Butter waitlist signup" />
+      <input type="hidden" name="_next" value={next} />
       <p class="hp" aria-hidden="true">
         <label>Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></label>
       </p>
@@ -69,13 +79,29 @@ const action = `https://formspree.io/f/${FORM_ID}`;
   const form = document.querySelector("form[data-formspree]");
   if (form) {
     const status = form.querySelector(".waitlist__status");
+    const btn = form.querySelector("button");
+    const OK_MSG = "You're on the list! Talk soon 🧈";
+
+    const show = (kind, msg) => {
+      status.hidden = false;
+      status.className = "waitlist__status" + (kind ? ` is-${kind}` : "");
+      status.textContent = msg;
+    };
+
+    // No-JS submits come back here via Formspree's _next redirect.
+    const params = new URLSearchParams(location.search);
+    if (params.get("joined") === "1") {
+      show("ok", OK_MSG);
+      params.delete("joined");
+      const clean = location.pathname + (params.size ? `?${params}` : "") + "#waitlist";
+      history.replaceState(null, "", clean);
+    }
+
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const btn = form.querySelector("button");
       const data = new FormData(form);
-      status.hidden = false;
-      status.className = "waitlist__status";
-      status.textContent = "Sending…";
+      data.delete("_next"); // JSON requests never redirect; keep the payload tidy.
+      show("", "Sending…");
       btn.disabled = true;
       try {
         const res = await fetch(form.action, {
@@ -85,14 +111,19 @@ const action = `https://formspree.io/f/${FORM_ID}`;
         });
         if (res.ok) {
           form.reset();
-          status.classList.add("is-ok");
-          status.textContent = "You're on the list! Talk soon 🧈";
+          show("ok", OK_MSG);
         } else {
-          throw new Error("bad response");
+          let detail = "";
+          try {
+            const body = await res.json();
+            if (Array.isArray(body.errors) && body.errors.length) {
+              detail = body.errors.map((er) => er.message).join(" ");
+            }
+          } catch {}
+          show("err", detail || "Hmm, something went wrong. Please try again in a moment.");
         }
       } catch (err) {
-        status.classList.add("is-err");
-        status.textContent = "Hmm, something went wrong. Please try again in a moment.";
+        show("err", "Couldn't reach the signup service. Check your connection and try again.");
       } finally {
         btn.disabled = false;
       }
