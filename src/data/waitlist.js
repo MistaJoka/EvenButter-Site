@@ -1,17 +1,18 @@
-// Waitlist delivery settings. Signups are delivered by Formspree (free tier,
-// 50 submissions/month, no backend needed).
+// Waitlist delivery. Signups go straight into a Supabase table the shop owns
+// (schema: supabase/migrations/20261028000000_waitlist.sql).
 //
-// To turn signups on:
-//   1. Sign in at https://formspree.io and create a form. Set the recipient
-//      to the bake shop inbox.
-//   2. The form's endpoint looks like https://formspree.io/f/abcdwxyz.
-//      Paste the id (the part after /f/) below.
-//   3. Push to main. The deploy workflow publishes it.
+// Config comes from environment variables (never committed):
+//   PUBLIC_SUPABASE_URL       e.g. https://abcdefghijkl.supabase.co
+//   PUBLIC_SUPABASE_ANON_KEY  the project's anon/publishable key
+// Locally: put them in .env (see .env.example). On GitHub Pages: repository
+// Actions variables of the same names; deploy.yml passes them to the build.
 //
-// Until the placeholder is replaced, the form renders but submissions fail,
-// and `npm run build` prints a warning.
-export const FORMSPREE_FORM_ID = "YOUR_FORM_ID";
-
-export const PLACEHOLDER_ID = "YOUR_FORM_ID";
-export const isWaitlistConfigured = FORMSPREE_FORM_ID !== PLACEHOLDER_ID;
-export const WAITLIST_ACTION = `https://formspree.io/f/${FORMSPREE_FORM_ID}`;
+// The anon key is designed to ship to browsers. Row-level security on the
+// table limits it to inserts only.
+//
+// Until both are set, the form renders but tells visitors signups are not
+// open yet, and `npm run build` prints a warning.
+export const SUPABASE_URL = (import.meta.env.PUBLIC_SUPABASE_URL ?? "").replace(/\/+$/, "");
+export const SUPABASE_ANON_KEY = import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? "";
+export const isWaitlistConfigured = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
+export const WAITLIST_ENDPOINT = `${SUPABASE_URL}/rest/v1/waitlist`;

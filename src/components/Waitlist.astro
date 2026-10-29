@@ -1,17 +1,12 @@
 ---
-import { WAITLIST_ACTION, isWaitlistConfigured } from "../data/waitlist.js";
+import { WAITLIST_ENDPOINT, SUPABASE_ANON_KEY, isWaitlistConfigured } from "../data/waitlist.js";
 
 if (!isWaitlistConfigured) {
   console.warn(
-    "\n[waitlist] FORMSPREE_FORM_ID is still the placeholder. The form renders but signups" +
-      " will fail. Set it in src/data/waitlist.js."
+    "\n[waitlist] PUBLIC_SUPABASE_URL / PUBLIC_SUPABASE_ANON_KEY are not set. The form" +
+      " renders but signups are disabled. See src/data/waitlist.js."
   );
 }
-
-const action = WAITLIST_ACTION;
-// Where Formspree sends visitors after a no-JavaScript submit. The page reads
-// ?joined=1 on load and shows the same thank-you message the JS path shows.
-const next = new URL("/?joined=1#waitlist", Astro.site).href;
 ---
 <section id="waitlist" class="section waitlist">
   <div class="container waitlist__card">
@@ -22,9 +17,13 @@ const next = new URL("/?joined=1#waitlist", Astro.site).href;
       No spam — just cookies.
     </p>
 
-    <form class="waitlist__form" action={action} method="POST" data-formspree>
-      <input type="hidden" name="_subject" value="New Even Butter waitlist signup" />
-      <input type="hidden" name="_next" value={next} />
+    <form
+      class="waitlist__form"
+      method="POST"
+      data-waitlist
+      data-endpoint={isWaitlistConfigured ? WAITLIST_ENDPOINT : ""}
+      data-key={isWaitlistConfigured ? SUPABASE_ANON_KEY : ""}
+    >
       <p class="hp" aria-hidden="true">
         <label>Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></label>
       </p>
@@ -38,6 +37,7 @@ const next = new URL("/?joined=1#waitlist", Astro.site).href;
       </div>
       <button class="btn" type="submit">Notify me</button>
       <p class="waitlist__status" role="status" aria-live="polite" hidden></p>
+      <noscript><p class="waitlist__status is-err">Please turn on JavaScript to join the list.</p></noscript>
     </form>
   </div>
 </section>
@@ -76,11 +76,17 @@ const next = new URL("/?joined=1#waitlist", Astro.site).href;
 </style>
 
 <script>
-  const form = document.querySelector("form[data-formspree]");
+  const form = document.querySelector("form[data-waitlist]");
   if (form) {
     const status = form.querySelector(".waitlist__status");
     const btn = form.querySelector("button");
+    const endpoint = form.dataset.endpoint;
+    const key = form.dataset.key;
     const OK_MSG = "You're on the list! Talk soon 🧈";
+    const DUPE_MSG = "You're already on the list! Talk soon 🧈";
+    const CLOSED_MSG = "Signups aren't open just yet. Check back soon!";
+    const ERR_MSG = "Hmm, something went wrong. Please try again in a moment.";
+    const NET_MSG = "Couldn't reach the signup service. Check your connection and try again.";
 
     const show = (kind, msg) => {
       status.hidden = false;
@@ -88,42 +94,45 @@ const next = new URL("/?joined=1#waitlist", Astro.site).href;
       status.textContent = msg;
     };
 
-    // No-JS submits come back here via Formspree's _next redirect.
-    const params = new URLSearchParams(location.search);
-    if (params.get("joined") === "1") {
-      show("ok", OK_MSG);
-      params.delete("joined");
-      const clean = location.pathname + (params.size ? `?${params}` : "") + "#waitlist";
-      history.replaceState(null, "", clean);
-    }
-
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+      if (!endpoint || !key) return show("err", CLOSED_MSG);
+
       const data = new FormData(form);
-      data.delete("_next"); // JSON requests never redirect; keep the payload tidy.
+      // Bots fill the hidden field. Smile, nod, send nothing.
+      if (data.get("_gotcha")) {
+        form.reset();
+        return show("ok", OK_MSG);
+      }
+      const payload = {
+        name: String(data.get("name") || "").trim(),
+        email: String(data.get("email") || "").trim(),
+      };
+
       show("", "Sending…");
       btn.disabled = true;
       try {
-        const res = await fetch(form.action, {
+        const res = await fetch(endpoint, {
           method: "POST",
-          body: data,
-          headers: { Accept: "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            apikey: key,
+            Authorization: `Bearer ${key}`,
+            Prefer: "return=minimal",
+          },
+          body: JSON.stringify(payload),
         });
-        if (res.ok) {
+        if (res.status === 201) {
           form.reset();
           show("ok", OK_MSG);
+        } else if (res.status === 409) {
+          form.reset();
+          show("ok", DUPE_MSG);
         } else {
-          let detail = "";
-          try {
-            const body = await res.json();
-            if (Array.isArray(body.errors) && body.errors.length) {
-              detail = body.errors.map((er) => er.message).join(" ");
-            }
-          } catch {}
-          show("err", detail || "Hmm, something went wrong. Please try again in a moment.");
+          show("err", ERR_MSG);
         }
       } catch (err) {
-        show("err", "Couldn't reach the signup service. Check your connection and try again.");
+        show("err", NET_MSG);
       } finally {
         btn.disabled = false;
       }
