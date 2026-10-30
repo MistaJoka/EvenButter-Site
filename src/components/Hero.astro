@@ -37,6 +37,8 @@ const stickers = orbit.map((o) => ({ ...o, ...flavors.find((f) => f.slug === o.s
         src={marcel}
         alt="Marcel the cow driving the Even Butter delivery van"
         width={760}
+        widths={[260, 380, 520, 760]}
+        sizes="(max-width: 860px) 250px, 370px"
         background="#FFFDF8"
         loading="eager"
         fetchpriority="high"
@@ -47,6 +49,9 @@ const stickers = orbit.map((o) => ({ ...o, ...flavors.find((f) => f.slug === o.s
           src={s.sticker}
           alt=""
           width={320}
+          widths={[120, 160, 240, 320]}
+          background="#FFFDF8"
+          sizes="(max-width: 860px) 110px, 160px"
           loading="eager"
           style={`top:${s.top}%;left:${s.left}%;width:${s.size}%;--tilt:${s.tilt}deg`}
         />

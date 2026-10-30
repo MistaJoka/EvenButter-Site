@@ -12,7 +12,7 @@ const { name, sticker, description, index = 0 } = Astro.props;
 const tilts = [-4, 3, -2, 5, -5, 2, 4, -3];
 ---
 <article class="flavor" style={`--tilt:${tilts[index % tilts.length]}deg`}>
-  <Image src={sticker} alt={`Even Butter ${name} sticker`} width={420} />
+  <Image src={sticker} alt={`Even Butter ${name} sticker`} width={420} background="#FFFDF8" widths={[180, 240, 320, 420]} sizes="(max-width: 560px) 42vw, 210px" />
   <h3 class="flavor__name">{name}</h3>
   <p class="flavor__desc">{description}</p>
 </article>

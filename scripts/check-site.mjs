@@ -34,6 +34,20 @@ for (const src of imgs) {
   assert.ok(kb <= 120, `${src} is ${kb.toFixed(0)}KB (budget 120KB)`);
 }
 
+// Fonts are self-hosted: no render-blocking third-party stylesheet
+assert.doesNotMatch(home, /fonts\.googleapis\.com|fonts\.gstatic\.com/, "Google Fonts still loaded");
+assert.match(css, /@font-face\s*\{[^}]*Fredoka/, "Fredoka not self-hosted");
+assert.match(css, /@font-face\s*\{[^}]*Nunito/, "Nunito not self-hosted");
+assert.match(css, /@font-face\s*\{[^}]*Caveat/, "Caveat not self-hosted");
+
+// Optimized images offer sizes so phones don't download desktop files
+const optimized = [...home.matchAll(/<img[^>]+src="\/_astro\/[^"]+"[^>]*>/g)].map((m) => m[0]);
+assert.ok(optimized.length >= 10, `expected optimized images, found ${optimized.length}`);
+for (const tag of optimized) {
+  assert.match(tag, /srcset="[^"]+\s\d+w/, `no width srcset: ${tag.slice(0, 80)}`);
+  assert.match(tag, /sizes="[^"]+"/, `no sizes: ${tag.slice(0, 80)}`);
+}
+
 // FAQ section on the homepage
 assert.match(home, /id="faq"/, "missing FAQ section");
 
