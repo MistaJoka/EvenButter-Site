@@ -1,19 +1,20 @@
 ---
+import { Image } from "astro:assets";
+import marcel from "../assets/marcel.png";
 ---
 <section class="band">
   <div class="container band__inner">
-    <img
+    <Image
       class="band__marcel"
-      src="/images/marcel.png"
+      src={marcel}
       alt="Marcel the cow in the Even Butter delivery van"
-      width="200"
-      height="200"
-      loading="lazy"
+      width={480}
+      background="#FFFDF8"
     />
     <div class="band__text">
       <h2>Marcel's warming up the van</h2>
-      <p>Local pickup and delivery are on the way. Marcel can't wait to bring you cookies.</p>
-      <span class="pill">deliveries coming soon</span>
+      <p>Local pickup and delivery around North Miami are on the way. Marcel can't wait to bring you cookies.</p>
+      <span class="pill">Deliveries coming soon</span>
     </div>
   </div>
 </section>
@@ -28,10 +29,11 @@
     flex-wrap: wrap;
     text-align: center;
   }
-  .band__marcel { width: min(200px, 45vw); height: auto; }
-  .band__text { max-width: 36ch; text-align: left; }
-  .band__text h2 { font-size: clamp(1.5rem, 3.5vw, 2rem); }
+  .band__marcel { width: min(240px, 45vw); height: auto; border-radius: 50%; background: var(--white); border: 2.5px solid var(--cocoa); }
+  .band__text { max-width: 44ch; text-align: left; }
+  .band__text h2 { font-size: clamp(1.7rem, 3.5vw, 2.5rem); }
   .band__text p { color: var(--cocoa-soft); }
+  .band .pill { background: var(--white); border: 2px solid var(--cocoa); }
   @media (max-width: 560px) {
     .band__text { text-align: center; }
   }

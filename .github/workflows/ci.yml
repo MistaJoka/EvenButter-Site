@@ -23,3 +23,7 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
+      - name: SEO check
+        run: node scripts/check-seo.mjs
+      - name: Site check
+        run: node scripts/check-site.mjs

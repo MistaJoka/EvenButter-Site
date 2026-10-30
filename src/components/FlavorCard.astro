@@ -1,51 +1,41 @@
 ---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
 interface Props {
   name: string;
-  sticker: string;
+  sticker: ImageMetadata;
   description: string;
   index?: number;
 }
 const { name, sticker, description, index = 0 } = Astro.props;
-const tints = ["tint-blush", "tint-sage", "tint-butter"];
-const tint = tints[index % tints.length];
+const tilts = [-4, 3, -2, 5, -5, 2, 4, -3];
 ---
-<article class={`flavor ${tint}`}>
-  <div class="flavor__stamp">
-    <img src={sticker} alt={`Even Butter ${name} sticker`} width="240" height="240" loading="lazy" />
-  </div>
+<article class="flavor" style={`--tilt:${tilts[index % tilts.length]}deg`}>
+  <Image src={sticker} alt={`Even Butter ${name} sticker`} width={420} />
   <h3 class="flavor__name">{name}</h3>
   <p class="flavor__desc">{description}</p>
 </article>
 
 <style>
-  .flavor {
-    border-radius: var(--radius);
-    border: 2px solid var(--cocoa);
-    padding: 1.4rem 1.25rem 1.6rem;
-    text-align: center;
-    box-shadow: var(--shadow-soft);
-    transition: transform 0.15s ease;
-  }
-  .flavor:hover { transform: translateY(-6px) rotate(-1deg); }
-  .tint-blush { background: var(--blush-soft); }
-  .tint-sage { background: var(--sage-soft); }
-  .tint-butter { background: var(--butter-soft); }
-
-  .flavor__stamp {
-    background: var(--white);
+  .flavor { text-align: center; }
+  .flavor img {
+    width: min(100%, 210px);
+    margin: 0 auto 1.1rem;
     border-radius: 50%;
-    width: 78%;
-    aspect-ratio: 1;
-    margin: 0 auto 1rem;
-    display: grid;
-    place-items: center;
-    border: 1.5px solid rgba(74, 52, 41, 0.12);
+    background: var(--white);
+    padding: 6%;
+    border: 2px solid var(--cocoa);
+    box-shadow: 5px 5px 0 var(--cocoa);
+    transform: rotate(var(--tilt));
+    transition: transform 0.2s ease;
   }
-  .flavor__stamp img { width: 92%; height: auto; }
-  .flavor__name { margin: 0 0 0.3rem; }
+  .flavor:hover img { transform: rotate(0deg) scale(1.04); }
+  .flavor__name { margin: 0 0 0.35rem; }
   .flavor__desc {
-    margin: 0;
-    font-size: 0.95rem;
+    margin: 0 auto;
+    max-width: 26ch;
+    font-size: 0.98rem;
     color: var(--cocoa-soft);
     line-height: 1.55;
   }

@@ -17,7 +17,7 @@ from PIL import Image
 
 SRC = Path("resources")
 OUT = Path("public/images")
-FLAVORS_OUT = OUT / "flavors"
+FLAVORS_OUT = Path("src/assets/flavors")
 
 # screenshot filename -> output slug
 MAPPING = {
@@ -98,7 +98,7 @@ def main():
         cropped, box = square_crop(img, bbox)
         out_img = to_transparent(cropped)
         if slug in ("marcel",):
-            dest = OUT / f"{slug}.png"
+            dest = Path("src/assets") / f"{slug}.png"
         elif slug == "logo":
             dest = OUT / f"{slug}.png"
         else:

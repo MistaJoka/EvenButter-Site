@@ -1,0 +1,70 @@
+---
+// Only answers we know to be true today. Add allergens, pricing and ordering
+// details here once they're set.
+const faqs = [
+  {
+    q: "When can I order?",
+    a: "Orders aren't open just yet. Join the list and you'll get an email the moment they are.",
+  },
+  {
+    q: "Where are you based?",
+    a: "North Miami, Florida. Everything is baked in Rachel's kitchen.",
+  },
+  {
+    q: "Do you deliver?",
+    a: "Local pickup and delivery around North Miami are on the way. The details go to the list first.",
+  },
+  {
+    q: "How are the cookies made?",
+    a: "By hand, in small batches, with premium ingredients and plenty of good chocolate. Each batch is baked to order.",
+  },
+  {
+    q: "Do the flavors change?",
+    a: "Yes. The menu rotates, and new flavors show up all the time.",
+  },
+];
+---
+<section id="faq" class="section faq">
+  <div class="container faq__grid">
+    <div>
+      <h2>Questions, answered</h2>
+      <p class="faq__intro">Anything else? Join the list and reply to the first email.</p>
+    </div>
+    <dl class="faq__list">
+      {faqs.map((f) => (
+        <div class="faq__item">
+          <dt>{f.q}</dt>
+          <dd>{f.a}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<style>
+  .faq { background: var(--cream); }
+  .faq__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: start;
+  }
+  .faq h2 { font-size: clamp(2rem, 4.5vw, 3.2rem); }
+  .faq__intro { color: var(--cocoa-soft); max-width: 30ch; }
+  .faq__list { margin: 0; }
+  .faq__item {
+    padding: 1.25rem 0;
+    border-top: 2px solid var(--cream-deep);
+  }
+  .faq__item:first-child { border-top: 0; padding-top: 0; }
+  .faq__item dt {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+  }
+  .faq__item dd { margin: 0; color: var(--cocoa-soft); max-width: 60ch; }
+  @media (max-width: 860px) {
+    .faq__grid { grid-template-columns: 1fr; }
+  }
+</style>

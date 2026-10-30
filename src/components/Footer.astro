@@ -3,25 +3,49 @@ const year = new Date().getFullYear();
 ---
 <footer class="footer">
   <div class="container footer__inner">
-    <img class="footer__logo" src="/images/logo.png" alt="Even Butter Bake Shop" width="240" height="147" loading="lazy" />
-    <p class="footer__love">
-      made with butter &amp; love
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" class="footer__paw">
-        <circle cx="6.5" cy="9.5" r="2" fill="currentColor" />
-        <circle cx="11" cy="6.5" r="2" fill="currentColor" />
-        <circle cx="16" cy="6.5" r="2" fill="currentColor" />
-        <circle cx="18.5" cy="10.5" r="2" fill="currentColor" />
-        <path d="M12 11c3 0 5 2.2 5 4.4 0 1.7-1.6 2.6-3.4 2.6-0.7 0-1.1-0.3-1.6-0.3s-0.9 0.3-1.6 0.3C9 18 7 17.1 7 15.4 7 13.2 9 11 12 11z" fill="currentColor" />
-      </svg>
-    </p>
-    <p class="footer__copy">© {year} Even Butter Bake Shop</p>
+    <div class="footer__brand">
+      <img class="footer__logo" src="/images/logo.png" alt="Even Butter Bake Shop" width="240" height="147" loading="lazy" />
+      <p class="footer__love">
+        made with butter &amp; love
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" class="footer__paw">
+          <circle cx="6.5" cy="9.5" r="2" fill="currentColor" />
+          <circle cx="11" cy="6.5" r="2" fill="currentColor" />
+          <circle cx="16" cy="6.5" r="2" fill="currentColor" />
+          <circle cx="18.5" cy="10.5" r="2" fill="currentColor" />
+          <path d="M12 11c3 0 5 2.2 5 4.4 0 1.7-1.6 2.6-3.4 2.6-0.7 0-1.1-0.3-1.6-0.3s-0.9 0.3-1.6 0.3C9 18 7 17.1 7 15.4 7 13.2 9 11 12 11z" fill="currentColor" />
+        </svg>
+      </p>
+    </div>
+    <div class="footer__col">
+      <p class="footer__head">Where we bake</p>
+      <p>North Miami, FL<br />Pickup and delivery coming soon</p>
+    </div>
+    <div class="footer__col">
+      <p class="footer__head">Around the site</p>
+      <ul>
+        <li><a href="/#flavors">Flavors</a></li>
+        <li><a href="/#about">Meet Rachel</a></li>
+        <li><a href="/#faq">FAQ</a></li>
+        <li><a href="/#waitlist">Join the list</a></li>
+        <li><a href="/privacy/">Privacy</a></li>
+      </ul>
+    </div>
   </div>
+  <p class="container footer__copy">Baked in North Miami, FL. © {year} Even Butter Bake Shop</p>
 </footer>
 
 <style>
-  .footer { background: var(--cocoa); color: var(--cream); padding: 3rem 1.25rem 2.5rem; }
-  .footer__inner { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.5rem; }
-  .footer__logo { width: 200px; height: auto; filter: brightness(0) invert(1); opacity: 0.95; }
+  .footer {
+    background: var(--cocoa);
+    color: var(--cream);
+    padding: clamp(3rem, 6vw, 4.5rem) 1.25rem 2rem;
+  }
+  .footer__inner {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 2.5rem;
+  }
+  .footer__logo { width: 180px; height: auto; filter: brightness(0) invert(1); opacity: 0.95; }
   .footer__love {
     font-family: var(--font-hand);
     font-size: 1.5rem;
@@ -30,6 +54,26 @@ const year = new Date().getFullYear();
     gap: 0.4rem;
     margin: 0.75rem 0 0;
   }
-  .footer__paw { color: var(--blush); }
-  .footer__copy { font-size: 0.85rem; color: rgba(251, 244, 230, 0.7); margin: 0.25rem 0 0; }
+  .footer__head {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0 0 0.75rem;
+    color: var(--butter);
+  }
+  .footer__col p, .footer__col ul { margin: 0; font-size: 1rem; opacity: 0.9; }
+  .footer__col ul { list-style: none; padding: 0; display: grid; gap: 0.35rem; }
+  .footer a { color: var(--cream); text-underline-offset: 4px; }
+  .footer__copy {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(251, 244, 230, 0.2);
+    font-size: 0.9rem;
+    opacity: 0.75;
+  }
+  @media (max-width: 720px) {
+    .footer__inner { grid-template-columns: 1fr; text-align: center; }
+    .footer__love { justify-content: center; }
+    .footer__logo { margin: 0 auto; }
+  }
 </style>

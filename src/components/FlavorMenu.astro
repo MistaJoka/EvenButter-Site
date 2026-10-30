@@ -3,12 +3,11 @@ import FlavorCard from "./FlavorCard.astro";
 import { flavors } from "../data/flavors.js";
 ---
 <section id="flavors" class="section flavors">
-  <div class="container center">
-    <p class="eyebrow">fresh from the oven</p>
-    <h2>The flavors</h2>
-    <p class="flavors__intro">
-      A rotating little menu of small-batch favorites. New flavors pop up all the time.
-    </p>
+  <div class="container">
+    <div class="flavors__head">
+      <h2>The flavors</h2>
+      <p>A rotating menu of small-batch favorites. New ones show up all the time.</p>
+    </div>
     <div class="flavors__grid">
       {flavors.map((f, i) => (
         <FlavorCard name={f.name} sticker={f.sticker} description={f.description} index={i} />
@@ -19,15 +18,22 @@ import { flavors } from "../data/flavors.js";
 
 <style>
   .flavors { background: var(--butter-soft); }
-  .flavors__intro {
-    max-width: 40ch;
-    margin: 0 auto 2.5rem;
-    color: var(--cocoa-soft);
+  .flavors__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem 2rem;
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
   }
+  .flavors__head h2 { margin: 0; font-size: clamp(2rem, 4.5vw, 3.2rem); }
+  .flavors__head p { margin: 0; max-width: 38ch; color: var(--cocoa-soft); }
   .flavors__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.5rem;
-    text-align: left;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(2.5rem, 4vw, 3.5rem) clamp(1.25rem, 3vw, 2.5rem);
+  }
+  @media (max-width: 900px) {
+    .flavors__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
 </style>

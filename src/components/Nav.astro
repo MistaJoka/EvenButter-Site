@@ -1,0 +1,46 @@
+---
+---
+<nav class="nav container" aria-label="Main">
+  <a class="nav__brand" href="/">
+    <img src="/images/logo.png" alt="Even Butter Bake Shop" width="480" height="293" />
+  </a>
+  <ul class="nav__links">
+    <li><a href="/#flavors">Flavors</a></li>
+    <li><a href="/#about">Meet Rachel</a></li>
+    <li><a href="/#faq">FAQ</a></li>
+    <li><a class="nav__cta" href="/#waitlist">Join the list</a></li>
+  </ul>
+</nav>
+
+<style>
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 0;
+  }
+  .nav__brand img { width: clamp(110px, 12vw, 150px); height: auto; }
+  .nav__links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 3vw, 2.25rem);
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-display);
+    font-weight: 500;
+  }
+  .nav__links a { text-decoration: none; }
+  .nav__links a:not(.nav__cta):hover { text-decoration: underline; text-underline-offset: 6px; }
+  .nav__cta {
+    border: 2px solid var(--cocoa);
+    border-radius: 999px;
+    padding: 0.45rem 1.1rem;
+    background: var(--white);
+  }
+  .nav__cta:hover { background: var(--butter); }
+  @media (max-width: 560px) {
+    .nav__links li:not(:last-child) { display: none; }
+  }
+</style>

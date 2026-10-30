@@ -1,0 +1,29 @@
+---
+// Shell for secondary pages (privacy, 404): nav, a narrow content column, footer.
+import Layout from "./Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  noindex?: boolean;
+}
+const { title, description, noindex = false } = Astro.props;
+---
+<Layout title={title} description={description} noindex={noindex}>
+  <header class="page-head"><Nav /></header>
+  <main id="main" class="section page">
+    <div class="page__body">
+      <slot />
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .page-head { padding: 0 1.25rem; }
+  .page__body { max-width: 68ch; margin: 0 auto; }
+  .page__body :global(h1) { font-size: clamp(2.2rem, 5vw, 3.4rem); }
+  .page__body :global(h2) { font-size: 1.5rem; margin-top: 2.25rem; }
+</style>

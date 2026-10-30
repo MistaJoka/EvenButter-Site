@@ -11,7 +11,7 @@ border = 14
 frame = Image.new("RGBA", (W, H), (0, 0, 0, 0))
 
 logo = Image.open("public/images/logo.png").convert("RGBA")
-marcel = Image.open("public/images/marcel.png").convert("RGBA")
+marcel = Image.open("src/assets/marcel.png").convert("RGBA")
 
 def fit(img, target_w):
     ratio = target_w / img.width
