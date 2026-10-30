@@ -18,8 +18,7 @@ const ogImage = `${site}/images/og.png`;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 
 // TODO(launch): add telephone, sameAs once real.
-const bakerySchema = {
-  "@context": "https://schema.org",
+const bakery = {
   "@type": "Bakery",
   "@id": `${site}/#bakery`,
   name: "Even Butter Bake Shop",
@@ -36,6 +35,18 @@ const bakerySchema = {
   },
   areaServed: { "@type": "City", name: "North Miami, FL" },
 };
+
+// Google reads WebSite (site name) from the home page only.
+const website = {
+  "@type": "WebSite",
+  "@id": `${site}/#website`,
+  name: "Even Butter Bake Shop",
+  alternateName: ["Even Butter", "evenbutterbakeshop.com"],
+  url: `${site}/`,
+  publisher: { "@id": `${site}/#bakery` },
+};
+const isHome = Astro.url.pathname === "/";
+const schema = { "@context": "https://schema.org", "@graph": [website, bakery] };
 ---
 
 <!doctype html>
@@ -50,7 +61,7 @@ const bakerySchema = {
     <meta name="theme-color" content="#FBF4E6" />
     {noindex && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={canonical} />
-    <script type="application/ld+json" set:html={JSON.stringify(bakerySchema)} />
+    {isHome && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Even Butter Bake Shop" />

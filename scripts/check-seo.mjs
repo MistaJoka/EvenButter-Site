@@ -11,8 +11,19 @@ assert.equal(canonical[1], `${SITE}/`);
 
 const ld = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
 assert.ok(ld, "missing JSON-LD script");
-const data = JSON.parse(ld[1]);
-assert.equal(data["@context"], "https://schema.org");
+const graph = JSON.parse(ld[1])["@graph"];
+assert.ok(Array.isArray(graph), "JSON-LD should be an @graph");
+const data = graph.find((n) => n["@type"] === "Bakery");
+assert.ok(data, "missing Bakery node");
+
+// Site name in search results (developers.google.com/search/docs/appearance/site-names)
+const website = graph.find((n) => n["@type"] === "WebSite");
+assert.ok(website, "missing WebSite node");
+assert.equal(website.name, "Even Butter Bake Shop");
+assert.equal(website.url, `${SITE}/`);
+assert.deepEqual(website.alternateName, ["Even Butter", "evenbutterbakeshop.com"]);
+assert.deepEqual(website.publisher, { "@id": `${SITE}/#bakery` });
+assert.equal(JSON.parse(ld[1])["@context"], "https://schema.org");
 assert.equal(data["@type"], "Bakery");
 assert.equal(data["@id"], `${SITE}/#bakery`);
 assert.equal(data.name, "Even Butter Bake Shop");
