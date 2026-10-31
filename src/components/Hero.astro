@@ -1,17 +1,8 @@
 ---
 import { Image } from "astro:assets";
-import marcel from "../assets/marcel.png";
-import { flavors } from "../data/flavors.js";
+// Delivery scene cropped from Rachel's Marcell brand sheet.
+import marcellVan from "../assets/marcell-van.png";
 import Nav from "./Nav.astro";
-
-// Stickers scattered around Marcel. Positions are % of the art box; tilt in deg.
-const orbit = [
-  { slug: "the-ccc", top: 2, left: 4, size: 30, tilt: -10 },
-  { slug: "raspberry-smores", top: 0, left: 66, size: 27, tilt: 8 },
-  { slug: "fudge-brownie", top: 66, left: 0, size: 28, tilt: 6 },
-  { slug: "jam-and-toast", top: 70, left: 70, size: 26, tilt: -7 },
-];
-const stickers = orbit.map((o) => ({ ...o, ...flavors.find((f) => f.slug === o.slug) }));
 ---
 <header class="hero">
   <Nav />
@@ -31,31 +22,16 @@ const stickers = orbit.map((o) => ({ ...o, ...flavors.find((f) => f.slug === o.s
     </div>
 
     <div class="hero__art">
-      <div class="hero__disc" aria-hidden="true"></div>
       <Image
         class="hero__marcel"
-        src={marcel}
-        alt="Marcel the cow driving the Even Butter delivery van"
-        width={760}
-        widths={[260, 380, 520, 760]}
-        sizes="(max-width: 860px) 250px, 370px"
-        background="#FFFDF8"
+        src={marcellVan}
+        alt="Marcell the cow waving from the Even Butter delivery van"
+        width={580}
+        widths={[290, 435, 580]}
+        sizes="(max-width: 860px) 90vw, 520px"
         loading="eager"
         fetchpriority="high"
       />
-      {stickers.map((s) => (
-        <Image
-          class="hero__sticker"
-          src={s.sticker}
-          alt=""
-          width={320}
-          widths={[120, 160, 240, 320]}
-          background="#FFFDF8"
-          sizes="(max-width: 860px) 110px, 160px"
-          loading="eager"
-          style={`top:${s.top}%;left:${s.left}%;width:${s.size}%;--tilt:${s.tilt}deg`}
-        />
-      ))}
     </div>
   </div>
 
@@ -112,42 +88,22 @@ const stickers = orbit.map((o) => ({ ...o, ...flavors.find((f) => f.slug === o.s
   }
 
   .hero__art {
-    position: relative;
-    aspect-ratio: 1;
     width: 100%;
-    max-width: 560px;
+    max-width: 540px;
     justify-self: center;
   }
-  .hero__disc {
-    position: absolute;
-    inset: 9%;
-    border-radius: 50%;
-    background: var(--butter);
-    border: 2.5px solid var(--cocoa);
-    box-shadow: 10px 10px 0 var(--cocoa);
-  }
   .hero__marcel {
-    position: absolute;
-    inset: 17%;
-    width: 66%;
-    border-radius: 50%;
-    background: var(--white);
-  }
-  .hero__sticker {
-    position: absolute;
+    display: block;
+    width: 100%;
     height: auto;
-    border-radius: 50%;
-    background: var(--white);
-    padding: 4%;
-    border: 2px solid var(--cocoa);
-    transform: rotate(var(--tilt));
-    animation: settle 0.7s cubic-bezier(0.3, 1.5, 0.6, 1) backwards;
+    background: #FDFCF7;
+    border: 2.5px solid var(--cocoa);
+    border-radius: 28px;
+    box-shadow: 10px 10px 0 var(--butter);
+    animation: arrive 0.6s cubic-bezier(0.3, 1.4, 0.6, 1) backwards;
   }
-  .hero__sticker:nth-of-type(3) { animation-delay: 0.1s; }
-  .hero__sticker:nth-of-type(4) { animation-delay: 0.2s; }
-  .hero__sticker:nth-of-type(5) { animation-delay: 0.3s; }
-  @keyframes settle {
-    from { opacity: 0; transform: rotate(calc(var(--tilt) * -2)) scale(0.6); }
+  @keyframes arrive {
+    from { opacity: 0; transform: translateX(-24px); }
   }
 
   .hero__scallop {
@@ -164,9 +120,9 @@ const stickers = orbit.map((o) => ({ ...o, ...flavors.find((f) => f.slug === o.s
     .hero__grid { grid-template-columns: 1fr; text-align: center; }
     .hero__title, .hero__sub { margin-left: auto; margin-right: auto; }
     .hero__actions { justify-content: center; }
-    .hero__art { max-width: 380px; }
+    .hero__art { max-width: 440px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .hero__sticker { animation: none; }
+    .hero__marcel { animation: none; }
   }
 </style>
